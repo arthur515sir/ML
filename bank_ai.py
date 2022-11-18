@@ -96,5 +96,5 @@ SVC_Model=SVC(C=0.7,kernel='linear')
 SVC_Model.fit(x_train,y_train)
 y_pred=SVC_Model.predict(x_test)
 print(classification_report(y_test,y_pred))
-#
+##
 print("cant touch this ")
