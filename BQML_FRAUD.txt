@@ -1,0 +1,26 @@
+
+
+
+
+
+CREATE OR REPLACE MODEL `fraud-361217.model` options(model_type='kmeans', standardize_features = true) AS
+SELECT * EXCEPT (Class)
+FROM `fraud-361217.credit_card_fraud.credit_card_fraud` where Time<150000
+
+
+
+
+
+ML.PREDİCT
+SELECT * FROM ML.PREDICT(
+MODEL `fraud-361217.credit_card_fraud.model`,
+(select * except(Class) from `fraud-361217.credit_card_fraud.credit_card_fraud` 
+where Time>150000 ))
+
+
+
+--anomaly detection
+
+select * from ML.DETECT_ANOMALIES
+(MODEL `fraud-361217.credit_card_fraud.model`,STRUCT(0.2 AS contamination),(select * EXCEPT(Class) 
+from `fraud-361217.credit_card_fraud.credit_card_fraud` where Time<150000))
